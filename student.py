@@ -127,11 +127,11 @@ def build_vocabulary(image_paths, vocab_size):
 
     # TODO: Implement this function!
     z = 4
-    bag_of_words = np.array()
-    for path_ in image_paths:
-        image = imread(path_)
-        image = resize(image, (200, 200))
-        histogram = hog(image, pixels_per_cell=(4, 4), cells_per_block=(z, z), feature_vector=True).reshape(-1, 4*4*9)
+    image = resize(imread(image_paths[0]), (200, 200))
+    bag_of_words = hog(image, pixels_per_cell=(4, 4), cells_per_block=(z, z), feature_vector=True).reshape(-1, z * z * 9)
+    for path_ in image_paths[1:]:
+        image = resize(imread(path_), (200, 200))
+        histogram = hog(image, pixels_per_cell=(4, 4), cells_per_block=(z, z), feature_vector=True).reshape(-1, z*z*9)
         bag_of_words = np.concatenate((bag_of_words, histogram))
     # kmeans = KMeans(n_clusters=200, random_state=5).fit(vocab)
     print("Done BOW..")
